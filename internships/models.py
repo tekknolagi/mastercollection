@@ -4,25 +4,6 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
-class ApplicationStatus(models.Model):
-    class Meta:
-        verbose_name_plural = 'application statuses'
-
-    STATUSES = (
-            (0, 'deadline passed'),
-            (1, 'followup'),
-            (2, 'successful'),
-            (3, 'interviewing'),
-            (4, 'post interview'),
-            (5, 'rejected'),
-            (6, 'todo'),
-            (7, 'waiting'),
-            )
-    status = models.IntegerField(choices=STATUSES, default=6)
-
-    def __str__(self):
-        return self.get_status_display()
-
 class Company(models.Model):
     class Meta:
         verbose_name_plural = 'companies'
@@ -35,8 +16,18 @@ class Company(models.Model):
 class JobApplication(models.Model):
     applicant = models.ForeignKey(User, on_delete=models.CASCADE)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    application_status = models.ForeignKey(ApplicationStatus)
     notes = models.CharField(max_length=400, blank=True)
+    STATUSES = (
+            (0, 'deadline passed'),
+            (1, 'followup'),
+            (2, 'successful'),
+            (3, 'interviewing'),
+            (4, 'post interview'),
+            (5, 'rejected'),
+            (6, 'todo'),
+            (7, 'waiting'),
+            )
+    status = models.IntegerField(choices=STATUSES, default=6)
 
     def __str__(self):
         return str(self.company)
