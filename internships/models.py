@@ -37,18 +37,11 @@ class Link(models.Model):
             (0, 'internship'),
             (1, 'full time'),
             )
-    created_at = models.DateTimeField(editable=False)
-    modified_at = models.DateTimeField()
     url_type = models.IntegerField(choices=URL_TYPES, default=1)
     url = models.CharField(max_length=500)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    company = models.ForeignKey(
+            Company, related_name='links', on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return self.url
-
-    def save(self, *args, **kwargs):
-        ''' On save, update timestamps '''
-        if not self.id:
-            self.created_at = timezone.now()
-        self.modified_at = timezone.now()
-        return super(Link, self).save(*args, **kwargs)

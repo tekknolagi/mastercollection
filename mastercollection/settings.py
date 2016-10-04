@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'csvimport.app.CSVImportConf',
     'internships.apps.InternshipsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
